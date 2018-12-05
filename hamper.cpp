@@ -144,7 +144,7 @@ void token::purchase( const transfer_args& t, name code ) {
       eosio_assert( t.quantity.is_valid(), "invalid quantity in transfer" );
       eosio_assert( t.quantity.amount > 0, "zero quantity is disallowed in transfer");
       uint64_t payout = t.quantity.amount / 1'0000; //convert precision
-      uint64_t refund = t.quantity.amount - (payout * 1'0000) //get the refund
+      uint64_t refund = t.quantity.amount - (payout * 1'0000); //get the refund
 
       eosio_assert(payout > 0, "cannot purchase less than 1 HAMPR");
       asset quantity = asset(payout,S(0,HAMPR));
