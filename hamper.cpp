@@ -64,7 +64,7 @@ void token::transfer( account_name from,
                       asset        quantity,
                       string       memo )
 {
-    eosio_assert( false, "Disabled - thanks for attending");
+    //eosio_assert( false, "Disabled - The ChrismEOS HAMPR Event has ended");
     eosio_assert( from != to, "cannot transfer to self" );
     require_auth( from );
     eosio_assert( is_account( to ), "to account does not exist");
@@ -149,11 +149,13 @@ void token::purchase( const transfer_args& t, name code ) {
       eosio_assert(payout > 0, "cannot purchase less than 1 HAMPR");
       asset quantity = asset(payout,S(0,HAMPR));
 
-      action(
-          permission_level{ _self, N(refund) },
-          N(eosio.token), N(transfer),
-          std::make_tuple(_self, t.from, asset(refund,S(4,EOS)), std::string("Refund fractional EOS from HAMPR purchase"))
-      ).send();
+      if(refund > 0) {
+        action(
+            permission_level{ _self, N(refund) },
+            N(eosio.token), N(transfer),
+            std::make_tuple(_self, t.from, asset(refund,S(4,EOS)), std::string("Refund fractional EOS from HAMPR purchase"))
+        ).send();
+      }
 
       auto sym_name = quantity.symbol.name();
       stats statstable( _self, sym_name );
